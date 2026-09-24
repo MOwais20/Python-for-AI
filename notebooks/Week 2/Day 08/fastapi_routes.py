@@ -1,4 +1,4 @@
-# FastAPI route decorators from Day 7.
+# FastAPI route decorators from Day 8.
 #
 # Run it:
 #     pip install "fastapi[standard]"

@@ -2,3 +2,5 @@ materials
 quiz
 __pycache__
 .DS_Store
+.venv
+*_Solutions.ipynb
