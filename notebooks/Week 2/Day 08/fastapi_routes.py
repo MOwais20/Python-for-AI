@@ -9,6 +9,12 @@ from fastapi import FastAPI
 
 app = FastAPI()                                   # the web app - keeps a list of addresses
 
+@app.get("/")
+def show_homepage():
+    return {
+        "message": "This is a simple server",
+        "version": "1.0"
+    }
 
 @app.get("/products")                             # GET /products -> someone wants to READ data
 def list_products():
