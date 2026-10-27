@@ -9,3 +9,4 @@ __pycache__
 # pattern
 *_Notes.md
 *_Explained.md
+*.env
