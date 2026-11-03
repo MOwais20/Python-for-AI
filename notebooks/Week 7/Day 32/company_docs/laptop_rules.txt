@@ -1,0 +1,9 @@
+Laptop Rules
+
+Every new employee gets one company laptop on the first day. You must return it on your last day.
+
+Do not install unknown software on the company laptop. Ask the IT team first.
+
+If your laptop is lost or stolen, tell the IT team within 24 hours. The IT team will lock the laptop from far away.
+
+Change your laptop password every 90 days. Never share your password with anyone.
