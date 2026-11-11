@@ -1,0 +1,37 @@
+text,intent
+Hello,greeting
+Hi there,greeting
+Assalam o Alaikum,greeting
+Good morning,greeting
+Salam,greeting
+Hey hello,greeting
+What is on the menu,menu
+What do you sell,menu
+Do you have samosa,menu
+What is the price of chai,menu
+Do you have paratha,menu
+Price list please,menu
+Do you deliver to Gulberg,delivery
+Where is my order,delivery
+How long will the delivery take,delivery
+What is the delivery charge,delivery
+Is home delivery available,delivery
+Do you deliver to DHA,delivery
+The chai was cold,complaint
+My order came late,complaint
+The samosa was not fresh,complaint
+The rider was rude,complaint
+You sent the wrong order,complaint
+Very bad service,complaint
+When do you open,hours
+What time do you close,hours
+Are you open on Sunday,hours
+Is the shop open now,hours
+What are your timings,hours
+Are you open at midnight,hours
+Can I pay with JazzCash,payment
+Do you take card,payment
+Is cash on delivery ok,payment
+Can I pay with Easypaisa,payment
+How do I pay,payment
+Do you accept bank transfer,payment

@@ -1,0 +1,41 @@
+text,intent
+Hello,greeting
+Hi there,greeting
+Assalam o Alaikum,greeting
+Good morning,greeting
+Hey is anyone there,greeting
+Salam,greeting
+Hello I need some help,greeting
+Hi good evening,greeting
+Hey hello,greeting
+Good afternoon,greeting
+What is on the menu,menu
+Show me the menu,menu
+What do you sell,menu
+Do you have samosa,menu
+What is the price of chai,menu
+Do you have paratha,menu
+How much is a cup of chai,menu
+What can I eat here,menu
+Do you sell cake rusk,menu
+Price list please,menu
+Do you deliver to Gulberg,delivery
+Can you deliver my order,delivery
+Where is my order,delivery
+How long will the delivery take,delivery
+Do you deliver at night,delivery
+What is the delivery charge,delivery
+Is home delivery available,delivery
+My order is on the way,delivery
+Can I track my delivery,delivery
+Do you deliver to DHA,delivery
+The chai was cold,complaint
+My order came late,complaint
+The samosa was not fresh,complaint
+The rider was rude,complaint
+You sent the wrong order,complaint
+The paratha was burnt,complaint
+I am not happy with the food,complaint
+The cup was dirty,complaint
+Very bad service,complaint
+My chai had no sugar,complaint

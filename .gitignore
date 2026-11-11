@@ -11,3 +11,5 @@ __pycache__
 *_Explained.md
 *.env
 class
+company_db
+chroma*
