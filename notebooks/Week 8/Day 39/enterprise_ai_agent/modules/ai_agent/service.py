@@ -3,7 +3,7 @@ from langchain_core.messages import HumanMessage
 from core.database import sqlite
 from modules.ai_agent.supervisor import build_supervisor
 
-graph = build_supervisor("ollama")   # or "grok", or graph.build_graph("ollama") for one agent
+graph = build_supervisor("groq")   # or "ollama", or graph.build_graph("ollama") for one agent
 
 
 def chat(query, session_id):

@@ -20,10 +20,10 @@ LLMS = {
         base_url="http://localhost:11434/v1",
         api_key="ollama",
         model=os.getenv("OLLAMA_MODEL", "qwen3:4b")),
-    "grok": dict(
-        base_url="https://api.x.ai/v1",
-        api_key=os.getenv("GROK_API_KEY"),
-        model=os.getenv("GROK_MODEL", "grok-4")),
+    "groq": dict(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=os.getenv("GROQ_API_KEY"),
+        model=os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")),
 }
 
 
