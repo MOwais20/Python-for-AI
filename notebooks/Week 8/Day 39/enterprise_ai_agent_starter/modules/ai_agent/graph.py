@@ -13,7 +13,9 @@ from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import ToolNode, tools_condition
 
 from modules.ai_agent.tools import TOOLS
-from core.services.llms import LLMS
+from core.services.llms import LLMs
+
+import os
 
 SYSTEM_PROMPT = """You are the friendly customer support assistant for Xander Restaurant.
 Keep replies short. Prices are in Pakistani rupees. Use fetch_menu for menu/prices.
@@ -22,16 +24,22 @@ order ID with validate_order_id, then call log_complaint only for a valid order.
 Never invent facts. Ask for missing details.
 """
 
-def create_chat_model(llm="grok"):
-    return ChatOpenAI(**LLMS[llm], temperature=0)
+def create_chat_model(llm="ollama"):
+
+    if not os.environ.get("OPENAI_API_KEY"):
+        os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+
+
+
+    return ChatOpenAI(**LLMs[llm], temperature=0)
 
 def assistant(state: MessagesState, model_with_tools):
     reply = model_with_tools.invoke([SystemMessage(content=SYSTEM_PROMPT), *state["messages"]])
     return {"messages": [reply]}
 
-def build_graph():
+def build_graph(llm="groq", model=None, tools=None):
     tools = TOOLS if tools is None else tools
-    model = create_chat_model()
+    model = create_chat_model(llm)
 
     model_with_tools = model.bind_tools(tools)
 
@@ -52,18 +60,10 @@ def build_graph():
     builder.add_edge("tools", "assistant")
 
     return builder.compile
+
+if __name__ == "__main__":
+    import sys
+    graph = build_graph(sys.argv[1] if len(sys.argv) > 1 else "ollama")
+    out = graph.invoke({"messages": [("user", "What is on the menu?")]})
+    print(out["messages"][-1].content)
     
-
-# Step 1: LLM settings (ollama and grok)
-# Step 2: create_chat_model(llm)
-
-
-# Step 3: build_graph(llm)
-#   3a. bind tools to the model
-#   3b. assistant node
-#   3c. tools node
-#   3d. edges: START -> assistant, assistant -> tools/END, tools -> assistant
-#   3e. compile
-
-
-# Step 4: run it

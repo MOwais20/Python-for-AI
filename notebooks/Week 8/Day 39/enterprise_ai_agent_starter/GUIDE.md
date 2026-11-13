@@ -8,7 +8,7 @@ We build one small piece, test it, then build the next piece.
 Before class:
 
 ```bash
-ollama pull qwen3:4b      # free local LLM
+  ollama pull qwen3:4b      # free local LLM
 cp .env.example .env      # add GROK_API_KEY if you want to use Grok
 ```
 
@@ -63,7 +63,7 @@ def create_chat_model(llm="ollama"):
 The graph is the plan that says: LLM thinks → we run the tool → LLM reads the result → answer.
 
 ```python
-def build_graph(llm="ollama", model=None, tools=None):
+  def build_graph(llm="ollama", model=None, tools=None):
     tools = TOOLS if tools is None else tools
     model = create_chat_model(llm) if model is None else model
 
@@ -71,10 +71,7 @@ def build_graph(llm="ollama", model=None, tools=None):
     model_with_tools = model.bind_tools(tools)
 
     # 3b. Node 1: the LLM reads all messages and replies
-    def assistant(state: MessagesState):
-        reply = model_with_tools.invoke(
-            [SystemMessage(content=SYSTEM_PROMPT), *state["messages"]])
-        return {"messages": [reply]}
+    
 
     builder = StateGraph(MessagesState)
     builder.add_node("assistant", assistant)
@@ -93,22 +90,24 @@ def build_graph(llm="ollama", model=None, tools=None):
 
 **Why each part?**
 
-| Part | What it does | Why we need it |
-| --- | --- | --- |
-| `bind_tools` | Gives the LLM the list of tools (name + docstring) | Without it, the LLM does not know the tools exist |
-| `MessagesState` | The shared notebook: a list of all messages | Every node reads it and adds to it |
-| `assistant` node | Calls the LLM | This is the "brain" that decides |
-| `tools` node | Runs the Python function the LLM asked for | The LLM cannot run code itself |
-| `compile()` | Checks the plan and makes it runnable | You cannot `invoke` a graph before compiling |
+
+| Part             | What it does                                       | Why we need it                                    |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------- |
+| `bind_tools`     | Gives the LLM the list of tools (name + docstring) | Without it, the LLM does not know the tools exist |
+| `MessagesState`  | The shared notebook: a list of all messages        | Every node reads it and adds to it                |
+| `assistant` node | Calls the LLM                                      | This is the "brain" that decides                  |
+| `tools` node     | Runs the Python function the LLM asked for         | The LLM cannot run code itself                    |
+| `compile()`      | Checks the plan and makes it runnable              | You cannot`invoke` a graph before compiling       |
 
 **Why edges?** Nodes are the workers. **Edges are the arrows that say who works next.**
 Without edges, LangGraph does not know the order.
 
-| Edge | What it does | Why |
-| --- | --- | --- |
-| `add_edge(START, "assistant")` | First step is always the LLM | The LLM must read the question first |
-| `add_conditional_edges("assistant", tools_condition)` | A fork in the road. Did the LLM ask for a tool? Yes → `tools`. No → `END` | Sometimes we need a tool ("menu?"), sometimes not ("hello") |
-| `add_edge("tools", "assistant")` | After the tool, go back to the LLM | The tool gives raw data (a list). The LLM turns it into a nice answer |
+
+| Edge                                                  | What it does                                                               | Why                                                                   |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `add_edge(START, "assistant")`                        | First step is always the LLM                                               | The LLM must read the question first                                  |
+| `add_conditional_edges("assistant", tools_condition)` | A fork in the road. Did the LLM ask for a tool? Yes →`tools`. No → `END` | Sometimes we need a tool ("menu?"), sometimes not ("hello")           |
+| `add_edge("tools", "assistant")`                      | After the tool, go back to the LLM                                         | The tool gives raw data (a list). The LLM turns it into a nice answer |
 
 This back-and-forth (`assistant → tools → assistant`) is a **loop**.
 It can repeat: for a complaint the LLM first calls `validate_order_id`, then `log_complaint`.
@@ -281,6 +280,7 @@ Everyday example: in a restaurant the manager at the counter does not cook. They
 ### Step 10: Make `modules/ai_agent/supervisor.py`
 
 **Why?**
+
 - `create_react_agent(...)` → makes a worker. Its `name` is how the manager calls it.
 - Small `prompt` per worker → each worker only knows its own job, so it makes fewer mistakes.
 - `create_supervisor(...)` → makes the manager. It gets a "transfer" tool for each worker (`transfer_to_menu_agent`, `transfer_to_complaint_agent`).
@@ -357,11 +357,12 @@ graph = build_supervisor("ollama")   # or "grok"
 
 Same steps, new agent. Ideas for Xander Restaurant:
 
-| Agent | Job | Tools to write |
-| --- | --- | --- |
-| `info_agent` | Branches, opening hours, policies | `search_knowledge` (RAG, Day 24) |
-| `order_agent` | Check order status | `get_order_status(order_id)` |
-| `reservation_agent` | Book a table | `check_table(date, time, people)`, `book_table(...)` |
-| `deals_agent` | Today's deals and discounts | `fetch_deals()` |
+
+| Agent               | Job                               | Tools to write                                       |
+| ------------------- | --------------------------------- | ---------------------------------------------------- |
+| `info_agent`        | Branches, opening hours, policies | `search_knowledge` (RAG, Day 24)                     |
+| `order_agent`       | Check order status                | `get_order_status(order_id)`                         |
+| `reservation_agent` | Book a table                      | `check_table(date, time, people)`, `book_table(...)` |
+| `deals_agent`       | Today's deals and discounts       | `fetch_deals()`                                      |
 
 For each one: 1) write the tool in `tools.py`, 2) make the worker with `create_react_agent`, 3) add it to `agents=[...]`, 4) add one line to the supervisor prompt.
