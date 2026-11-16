@@ -2,7 +2,8 @@
 from langgraph.prebuilt import create_react_agent
 from langgraph_supervisor import create_supervisor
 from modules.ai_agent.graph import create_chat_model
-from modules.ai_agent.tools import fetch_menu, validate_order_id, log_complaint
+from modules.ai_agent.tools import fetch_menu, validate_order_id, log_complaint, get_discounts
+
 
 
 def build_supervisor(llm="groq"):
@@ -23,12 +24,25 @@ def build_supervisor(llm="groq"):
                 "Ask for missing details. Never invent a complaint ID."),
     )
 
+    offer_agent = create_react_agent(
+        model=model,
+        tools=[get_discounts],
+        name="offer_agent",
+        prompt="This agent will tell user about discounts.",
+    )
+
     supervisor = create_supervisor(
-        agents=[menu_agent, complaint_agent],
+        agents=[menu_agent, complaint_agent, offer_agent],
         model=model,
         prompt=("You are the manager of Xander Restaurant support. "
                 "Menu or price questions -> menu_agent. Complaints -> complaint_agent. "
+                "For Offers/Discount we've made separate offer agent, trigger that when there's a query related to it."
                 "For greetings, answer yourself in one short line. "
                 "After a worker agent answers, write nothing more: repeat the worker's answer exactly."),
     )
     return supervisor.compile()
+
+
+
+
+

@@ -13,3 +13,4 @@ __pycache__
 class
 company_db
 chroma*
+.agents
