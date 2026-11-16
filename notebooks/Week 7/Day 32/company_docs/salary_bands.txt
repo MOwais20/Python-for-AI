@@ -1,0 +1,7 @@
+Salary Bands
+
+This document is for managers only. Do not share the salary bands with other employees.
+
+A junior engineer earns Rs 150000 to Rs 250000 per month. A senior engineer earns Rs 300000 to Rs 450000 per month.
+
+A team lead earns Rs 500000 to Rs 700000 per month. Raises are decided once a year, in January.

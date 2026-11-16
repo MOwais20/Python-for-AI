@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="callAPI()">
+        Fetch API
+    </button>
+</body>
+
+<script>
+
+    const callAPI = () => {
+        fetch("http://localhost:8000/ai/history?session_id=f5452375-a6a6-4776-b7f4-0fd1d59f8c26")
+    }
+
+</script>
+
+</html>
